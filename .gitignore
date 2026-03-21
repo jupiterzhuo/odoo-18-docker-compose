@@ -1,0 +1,9 @@
+postgresql/
+etc/odoo-server.log
+etc/odoo-server.log.*
+etc/addons/
+etc/sessions/
+etc/filestore/
+
+# Studio Booking addons: own Git repo — https://github.com/jupiterzhuo/odoo18-booking-system
+addons/odoo18_booking_system/

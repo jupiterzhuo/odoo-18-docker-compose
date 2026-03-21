@@ -1,0 +1,102 @@
+---
+description: Pulsebook FE integration contract - analyze FE for API alignment, do not modify FE
+alwaysApply: false
+globs: ["addons/odoo18_booking_system/studio_booking/**", "addons/odoo18_booking_system/studio_booking_api/**"]
+---
+
+# Pulsebook Frontend Integration
+
+**Frontend location:** `~/Documents/booking-system/pulsebook-fe/` (Next.js)
+
+**Important:** Do **not** modify the frontend code from this workspace. All changes must be in the backend (`addons/odoo18_booking_system/studio_booking/` core, `addons/odoo18_booking_system/studio_booking_api/` HTTP). Use this rule to align backend APIs with FE expectations.
+
+---
+
+## FE Architecture
+
+- **Framework:** Next.js (App Router)
+- **Auth:** JWT in `access_token` cookie; proxied to backend via `Authorization: Bearer <token>`
+- **API proxy:** FE routes in `app/api/member/` proxy to backend when `API_BASE_URL` is configured
+- **Tenant:** Optional `X-Tenant-Code` header from `API_TENANT_CODE`
+
+---
+
+## FE → Backend API Mapping
+
+| FE Route | Proxies To | Method |
+|----------|------------|--------|
+| `/api/member/sessions/[session_id]` | `/api/member/sessions/<id>` | GET |
+| `/api/member/bookings` | `/api/class/booking` | POST |
+| `/api/member/bookings/cancel` | `/api/class/cancel` | POST |
+| `/api/member/bookings/my?session_id=` | (mock only; no backend) | GET |
+
+---
+
+## Backend Response Contract
+
+### Session (list & detail)
+
+Backend returns `{ success, session }` or `{ success, sessions, count }`. FE expects:
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `id` | number/string | ✓ | Session ID |
+| `start_time`, `end_time` | string "HH:MM" | ✓ | GMT+7 |
+| `class_name` | string | ✓ | |
+| `studio_name` | string | ✓ | Room name |
+| `instructor_name` | string | ✓ | |
+| `attendance` | number | ✓ | booked_count |
+| `capacity` | number | ✓ | |
+| `status` | "available" \| "full" | ✓ | |
+| `is_user_booked` | boolean | ✓ | |
+| `is_bookable` | boolean | ✓ | Can book seat or join waitlist |
+| `can_join_waitlist` | boolean | ✓ | True when full + eligible + not booked |
+| `date` | string "YYYY-MM-DD" | ✓ | |
+| `branch_id` | number | ✓ | |
+| `branch_name` | string | ✓ | |
+| `description` | string | Detail only | |
+| `my_booking_id` | number/string | Recommended | For cancel button; FE uses session_id fallback |
+| `my_booking_status` | "booked" \| "promoted" \| "waitlisted" | Recommended | Maps to FE "confirmed"/"waitlisted" |
+| `my_waitlist_position` | number | Optional | Waitlist position for badge |
+| `waitlist_total` | number | Optional | Total on waitlist for badge |
+
+### FE Status Mapping
+
+- Backend `booked` / `promoted` → FE `confirmed`
+- Backend `waitlisted` → FE `waitlisted`
+- Backend `status: "full"` + `can_join_waitlist: true` → FE shows "Join Waitlist" button
+
+### Booking API
+
+- **POST /api/class/booking**  
+  Body: `{ session_id: number }`  
+  Response: `{ success, message, booking: { id, session_id, member_profile_id, status } }`  
+  `status`: "booked" or "waitlisted"
+
+- **POST /api/class/cancel**  
+  Body: `{ booking_id?: number }` or `{ session_id?: number }`  
+  Response: `{ success, message }`
+
+### FE Error Handling
+
+- FE expects `ok: false` or `success: false` with `message` for errors
+- FE proxy wraps backend: `{ ok: data?.success, message: data?.message }`
+
+---
+
+## Backend Alignment Checklist
+
+When changing studio_booking APIs:
+
+1. **Session serialization** (`_serialize_for_api`, `_serialize_detail_for_api`): Ensure `my_booking_id`, `my_booking_status`, `my_waitlist_position`, `waitlist_total` are included when member has a booking.
+2. **Response shape:** Keep `success`, `message`, `session`/`sessions`/`booking` keys consistent.
+3. **Status values:** Use `"available"`, `"full"`, `"booked"`, `"promoted"`, `"waitlisted"` as documented.
+4. **Cancel:** Support both `booking_id` and `session_id`; members use JWT, no `member_profile_id` in body.
+
+---
+
+## FE Components (Reference)
+
+- `BookActionButton`: Cancel; needs `bookingId` or `sessionId`, `myBookingStatus` ("confirmed"|"waitlisted")
+- `ClassDetailClient`: Session detail; fetches `/api/member/sessions/[id]` and `/api/member/bookings/my?session_id=`
+- `session-adapter`: Maps backend session to `ClassItem`; uses `attendance`, `capacity`, `status`, `is_user_booked`

@@ -1,0 +1,5 @@
+{
+  // This workspace’s Git remote is `origin` → jupiterzhuo/odoo-18-docker-compose (see `git remote -v`).
+  // If Cursor still shows an old GitHub repo, run: Command Palette → “Developer: Reload Window”.
+  "github.gitProtocol": "https"
+}
