@@ -26,24 +26,15 @@ Odoo loads every subdirectory here that contains `__manifest__.py`.
 
 Restart Odoo after path changes. **Upgrading** modules (`-u` / Apps → Upgrade) does not remove business data; DB module names stay e.g. `studio_booking`, `studio_booking_api`, `booking_system_penalties`.
 
-## Push to GitHub
+## Git / Cursor
 
-This folder is a **Git repository**. The remote URL does **not** have to match the folder name.
-
-Example (your existing remote may still be `odoo18-booking-system` on GitHub — that is fine):
+These addons are tracked in the **compose repository** (project root). Commit and push from the repo root so **Source Control** shows `addons/odoo18_booking_system/...` (including `booking_system_penalties`).
 
 ```bash
-cd addons/odoo18_booking_system    # from compose repo root
-git add studio_booking studio_booking_api booking_system_penalties README.md .gitignore
-git status
+cd /path/to/odoo-18-docker-compose   # repo root, not this folder only
+git add addons/odoo18_booking_system
 git commit -m "Your message"
-git push origin main
+git push origin master
 ```
 
-To use a new GitHub repo URL:
-
-```bash
-git remote set-url origin https://github.com/YOU/NEW_REPO.git
-```
-
-See also `../ADDONS.md` in the compose repo.
+See root **`REPOS.md`** and **`../ADDONS.md`**.
