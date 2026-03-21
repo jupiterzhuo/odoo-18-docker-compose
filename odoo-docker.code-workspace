@@ -1,11 +1,11 @@
 {
   "folders": [
     {
-      "name": "① Compose (Docker / etc)",
+      "name": "🏠 jupiterzhuo/odoo-18-docker-compose (root)",
       "path": "."
     },
     {
-      "name": "② Booking modules (studio_booking …)",
+      "name": "📦 addons → jupiterzhuo/odoo18-booking-system",
       "path": "addons/odoo18_booking_system"
     }
   ],

@@ -1,7 +1,12 @@
 {
-  // Compose repo: origin → https://github.com/jupiterzhuo/odoo-18-docker-compose
-  // Booking addons: nested repo under addons/odoo18_booking_system → https://github.com/jupiterzhuo/odoo18-booking-system
-  // That folder is in the parent .gitignore, so without the next line Cursor/Git often skips the second repo.
+  // ═══════════════════════════════════════════════════════════════════════════
+  // MY REPOSITORIES (Jupiter Zhuo — use these in Source Control / GitHub)
+  // ═══════════════════════════════════════════════════════════════════════════
+  // • origin  → https://github.com/jupiterzhuo/odoo-18-docker-compose
+  //   Full project: Docker, etc/, addons/odoo18_booking_system/ (commit & push here)
+  // • booking → https://github.com/jupiterzhuo/odoo18-booking-system
+  //   Mirror of addons only: git subtree (see REPOS.md / MY_REPO.md)
+  // ═══════════════════════════════════════════════════════════════════════════
   "git.repositoryScanIgnoredFolders": true,
   "git.autoRepositoryDetection": "subFolders",
   "github.gitProtocol": "https"

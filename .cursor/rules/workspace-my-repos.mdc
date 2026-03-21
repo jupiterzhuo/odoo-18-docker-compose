@@ -1,0 +1,17 @@
+---
+description: GitHub remotes for this workspace — always use Jupiter Zhuo's repos
+alwaysApply: true
+---
+
+# My repositories
+
+Do **not** reference third-party template repos (e.g. minhng92). This workspace is owned by **jupiterzhuo**.
+
+| Remote | URL |
+|--------|-----|
+| **origin** | `https://github.com/jupiterzhuo/odoo-18-docker-compose.git` |
+| **booking** | `https://github.com/jupiterzhuo/odoo18-booking-system.git` |
+
+- Default Git operations and **Source Control** → **`origin`** on branch **`master`**.
+- Booking addons live under `addons/odoo18_booking_system/` inside the compose repo.
+- Push mirror to **booking** with subtree: see **`REPOS.md`** or **`MY_REPO.md`**.
