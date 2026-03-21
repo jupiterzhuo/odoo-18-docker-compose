@@ -6,7 +6,7 @@ Install [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs
 
 This project is **not** tied to any third-party upstream. Use **your own** Git repository for this compose tree.
 
-**Which GitHub repo is which?** See **[REPOS.md](REPOS.md)** (compose vs `addons/odoo18_booking_system`). **Cursor:** open **`odoo-docker.code-workspace`** so Source Control shows both repos (booking changes are hidden if you only open the compose folder).
+**Git / Cursor:** Booking addons live in **`addons/odoo18_booking_system/`** inside this same repo — they show in **Source Control** with the rest of the project. Details: **[REPOS.md](REPOS.md)**. Optional: open **`odoo-docker.code-workspace`** for two folder roots in the sidebar.
 
 If Git or Cursor shows **“Repository not found”**, the GitHub repo for `origin` does not exist yet or your account cannot access it — see **[docs/GIT_REMOTE_SETUP.md](docs/GIT_REMOTE_SETUP.md)**.
 

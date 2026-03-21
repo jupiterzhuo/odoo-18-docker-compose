@@ -1,6 +1,6 @@
 # Custom addons layout
 
-Studio Booking addons live under **`odoo18_booking_system/`** (its own Git repo; push to GitHub as before — local folder name can differ from the repo name on github.com).
+Studio Booking addons live under **`odoo18_booking_system/`** in this compose repository (same Git remote as the project root — see root **`REPOS.md`**).
 
 | Path | Odoo module name | Role |
 |------|------------------|------|
@@ -14,7 +14,7 @@ Module folders use **underscores** (Python / Odoo requirement). There is **no ex
 
 **Database:** `ir_module_module` stores each technical name (e.g. `studio_booking`, `studio_booking_api`, `booking_system_penalties`). Moving or renaming **disk** folders does **not** delete data if `addons_path` stays correct.
 
-**GitHub:** From the compose repo, `cd addons/odoo18_booking_system` — your existing `origin` (e.g. `odoo18-booking-system.git`) is unchanged; `git push origin main` works the same.
+**GitHub:** Push from the **compose repo root**; `addons/odoo18_booking_system/` is tracked there. (An older separate `odoo18-booking-system` clone, if any, is optional to keep in sync manually.)
 
 ## Safe upgrade (keeps your data)
 
