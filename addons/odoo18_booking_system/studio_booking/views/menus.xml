@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Actions must be defined before menuitems that reference them -->
+  <record id="action_studio_tenant" model="ir.actions.act_window">
+    <field name="name">Tenants</field>
+    <field name="res_model">studio.tenant</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_branch" model="ir.actions.act_window">
+    <field name="name">Branches</field>
+    <field name="res_model">studio.branch</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_room" model="ir.actions.act_window">
+    <field name="name">Rooms</field>
+    <field name="res_model">studio.room</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_member_profile" model="ir.actions.act_window">
+    <field name="name">Member Profiles</field>
+    <field name="res_model">studio.member_profile</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_membership_plan" model="ir.actions.act_window">
+    <field name="name">Membership Plans</field>
+    <field name="res_model">studio.membership_plan</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_membership_subscription" model="ir.actions.act_window">
+    <field name="name">Subscriptions</field>
+    <field name="res_model">studio.membership_subscription</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'create': 0, 'edit': 0, 'delete': 0}</field>
+  </record>
+  <record id="action_studio_instructor" model="ir.actions.act_window">
+    <field name="name">Instructors</field>
+    <field name="res_model">studio.instructor</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_class_template" model="ir.actions.act_window">
+    <field name="name">Class Templates</field>
+    <field name="res_model">studio.class_template</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_session_template" model="ir.actions.act_window">
+    <field name="name">Session Templates</field>
+    <field name="res_model">studio.session_template</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_studio_class_session" model="ir.actions.act_window">
+    <field name="name">Class Sessions</field>
+    <field name="res_model">studio.class_session</field>
+    <field name="view_mode">calendar,list,form</field>
+    <field name="domain">[('state', '!=', 'cancelled')]</field>
+  </record>
+  <record id="action_studio_booking" model="ir.actions.act_window">
+    <field name="name">Bookings</field>
+    <field name="res_model">studio.booking</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="menu_studio_booking_root"
+    name="Studio Booking"
+    sequence="50"
+    groups="studio_booking.group_studio_booking_user,studio_booking.group_studio_booking_manager"/>
+  <menuitem id="menu_studio_config"
+    name="Configuration"
+    parent="menu_studio_booking_root"
+    sequence="30"/>
+  <record id="action_studio_booking_settings" model="ir.actions.act_window">
+    <field name="name">Settings</field>
+    <field name="res_model">res.config.settings</field>
+    <field name="view_mode">form</field>
+    <field name="target">inline</field>
+    <field name="context">{'module': 'studio_booking'}</field>
+  </record>
+  <menuitem id="menu_studio_settings"
+    name="Settings"
+    parent="menu_studio_config"
+    action="action_studio_booking_settings"
+    groups="studio_booking.group_studio_booking_manager"
+    sequence="1"/>
+  <menuitem id="menu_studio_tenant"
+    name="Tenants"
+    parent="menu_studio_config"
+    action="action_studio_tenant"
+    groups="studio_booking.group_studio_booking_manager"
+    sequence="5"/>
+  <menuitem id="menu_studio_branch"
+    name="Branches"
+    parent="menu_studio_config"
+    action="action_studio_branch"
+    sequence="10"/>
+  <menuitem id="menu_studio_room"
+    name="Rooms"
+    parent="menu_studio_config"
+    action="action_studio_room"
+    sequence="15"/>
+  <menuitem id="menu_studio_membership_plan"
+    name="Membership Plans"
+    parent="menu_studio_config"
+    action="action_studio_membership_plan"
+    sequence="20"/>
+  <menuitem id="menu_studio_instructor"
+    name="Instructors"
+    parent="menu_studio_config"
+    action="action_studio_instructor"
+    sequence="25"/>
+  <menuitem id="menu_studio_class_template"
+    name="Class Templates"
+    parent="menu_studio_config"
+    action="action_studio_class_template"
+    sequence="30"/>
+  <menuitem id="menu_studio_operational"
+    name="Operations"
+    parent="menu_studio_booking_root"
+    sequence="10"/>
+  <menuitem id="menu_studio_members_root"
+    name="Members"
+    parent="menu_studio_operational"
+    sequence="5"/>
+  <menuitem id="menu_studio_sessions_root"
+    name="Sessions"
+    parent="menu_studio_operational"
+    sequence="10"/>
+  <menuitem id="menu_studio_session_template"
+    name="Session Templates"
+    parent="menu_studio_sessions_root"
+    action="action_studio_session_template"
+    sequence="5"/>
+  <menuitem id="menu_studio_member_profile"
+    name="Member Profiles"
+    parent="menu_studio_members_root"
+    action="action_studio_member_profile"
+    sequence="5"/>
+  <menuitem id="menu_studio_membership_subscription"
+    name="Subscriptions"
+    parent="menu_studio_members_root"
+    action="action_studio_membership_subscription"
+    sequence="10"/>
+  <menuitem id="menu_studio_class_session"
+    name="Class Sessions"
+    parent="menu_studio_sessions_root"
+    action="action_studio_class_session"
+    sequence="10"/>
+  <menuitem id="menu_studio_booking"
+    name="Bookings"
+    parent="menu_studio_operational"
+    action="action_studio_booking"
+    sequence="20"/>
+  <!-- Bookings also at root level for quick access -->
+  <menuitem id="menu_studio_booking_root_level"
+    name="Bookings"
+    parent="menu_studio_booking_root"
+    action="action_studio_booking"
+    sequence="20"/>
+</odoo>

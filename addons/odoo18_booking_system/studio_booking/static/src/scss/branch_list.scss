@@ -1,0 +1,66 @@
+/* Account Onboarding: prevent label word wrap, reduce checkbox field size */
+.account_onboarding_group .o_td_label,
+.account_onboarding_group .o_form_label,
+.account_onboarding_group label {
+  white-space: nowrap;
+}
+
+/* Shrink checkbox value cells so labels have more room */
+.account_onboarding_group .o_td_value:has(.account_onboarding_checkbox) {
+  width: 1%;
+  min-width: 0;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table,
+.o_studio_branch_list .o_list_table {
+  table-layout: auto;
+  width: 100%;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table th.o_list_record_selector,
+.o_list_view.o_studio_branch_list .o_list_table td.o_list_record_selector,
+.o_studio_branch_list .o_list_table th.o_list_record_selector,
+.o_studio_branch_list .o_list_table td.o_list_record_selector {
+  width: 34px !important;
+  min-width: 34px;
+  max-width: 34px;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table th[data-name="name"],
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="name"],
+.o_studio_branch_list .o_list_table th[data-name="name"],
+.o_studio_branch_list .o_list_table td[data-name="name"] {
+  width: 64% !important;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table th[data-name="room_count"],
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="room_count"],
+.o_studio_branch_list .o_list_table th[data-name="room_count"],
+.o_studio_branch_list .o_list_table td[data-name="room_count"] {
+  width: 22% !important;
+  min-width: 140px;
+  text-align: left !important;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table th[data-name="active"],
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="active"],
+.o_studio_branch_list .o_list_table th[data-name="active"],
+.o_studio_branch_list .o_list_table td[data-name="active"] {
+  width: 8% !important;
+  min-width: 70px;
+}
+
+.o_list_view.o_studio_branch_list .o_list_table th[data-name="room_count"],
+.o_list_view.o_studio_branch_list .o_list_table th[data-name="room_count"] .o_column_title,
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="room_count"],
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="room_count"] .o_field_widget,
+.o_list_view.o_studio_branch_list .o_list_table td[data-name="room_count"] .o_field_widget *,
+.o_studio_branch_list .o_list_table th[data-name="room_count"],
+.o_studio_branch_list .o_list_table th[data-name="room_count"] .o_column_title,
+.o_studio_branch_list .o_list_table td[data-name="room_count"],
+.o_studio_branch_list .o_list_table td[data-name="room_count"] .o_field_widget,
+.o_studio_branch_list .o_list_table td[data-name="room_count"] .o_field_widget * {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  white-space: nowrap;
+}

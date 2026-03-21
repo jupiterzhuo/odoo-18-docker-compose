@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_class_session_tree" model="ir.ui.view">
+    <field name="name">studio.class_session.list</field>
+    <field name="model">studio.class_session</field>
+    <field name="arch" type="xml">
+      <list string="Class Sessions">
+        <field name="tenant_id"/>
+        <field name="branch_id"/>
+        <field name="session_template_id"/>
+        <field name="template_id"/>
+        <field name="state"/>
+        <field name="session_start"/>
+        <field name="session_end"/>
+        <field name="room_id"/>
+        <field name="instructor_id"/>
+        <field name="capacity"/>
+        <field name="booked_count"/>
+        <field name="waitlist_count"/>
+        <field name="checkin_close_at"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_class_session_calendar" model="ir.ui.view">
+    <field name="name">studio.class_session.calendar</field>
+    <field name="model">studio.class_session</field>
+    <field name="arch" type="xml">
+      <calendar
+        string="Class Sessions Calendar"
+        date_start="session_start"
+        date_stop="session_end"
+        color="instructor_id"
+        mode="week">
+        <field name="template_id"/>
+        <field name="room_id"/>
+        <field name="instructor_id"/>
+        <field name="state"/>
+        <field name="capacity"/>
+        <field name="booked_count"/>
+        <field name="waitlist_count"/>
+        <field name="booked_display"/>
+        <field name="waitlist_display"/>
+      </calendar>
+    </field>
+  </record>
+  <record id="view_studio_class_session_form" model="ir.ui.view">
+    <field name="name">studio.class_session.form</field>
+    <field name="model">studio.class_session</field>
+    <field name="arch" type="xml">
+      <form string="Class Session">
+        <header>
+          <button
+            name="action_booking_detail"
+            string="Detail"
+            type="object"
+            class="btn-secondary"
+            title="Show Who is Booking and Who is Waitlist in a pop-up"/>
+          <button
+            name="action_cancel_session"
+            string="Cancel Session"
+            type="object"
+            class="btn-danger"
+            invisible="state == 'cancelled'"/>
+          <field name="state" widget="statusbar" statusbar_visible="scheduled,cancelled,completed"/>
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="tenant_id" invisible="1"/>
+              <field name="branch_id"/>
+              <field name="room_id"/>
+              <field name="instructor_id"/>
+              <field name="session_template_id"/>
+              <field name="template_id"/>
+              <!-- ❌ Removed manual name input from session form -->
+              <field name="session_start"/>
+              <field name="session_end"/>
+              <field name="checkin_close_at"/>
+            </group>
+            <group>
+              <field name="capacity"/>
+              <field name="generated_by_cron"/>
+              <field name="cancel_reason" invisible="state != 'cancelled'"/>
+              <field name="booked_count"/>
+              <field name="waitlist_count"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Bookings" name="bookings">
+              <field name="booking_ids" nolabel="1">
+                <list default_group_by="booking_status">
+                  <field name="member_profile_id"/>
+                  <field name="booking_status"/>
+                  <field name="attendance_status"/>
+                  <field name="waitlist_sequence"/>
+                  <field name="checkin_source"/>
+                  <field name="checked_in_at"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_class_template_tree" model="ir.ui.view">
+    <field name="name">studio.class_template.list</field>
+    <field name="model">studio.class_template</field>
+    <field name="arch" type="xml">
+      <list string="Class Templates" decoration-muted="not active">
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="name"/>
+        <field name="duration_minutes"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_class_template_form" model="ir.ui.view">
+    <field name="name">studio.class_template.form</field>
+    <field name="model">studio.class_template</field>
+    <field name="arch" type="xml">
+      <form string="Class Template">
+        <sheet>
+          <group>
+            <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+            <field name="tenant_id" groups="studio_booking.group_studio_booking_user" invisible="1"/>
+            <field name="name"/>
+            <field name="duration_minutes"/>
+            <field name="active"/>
+          </group>
+          <notebook>
+            <page string="Sessions" name="sessions">
+              <field
+                name="session_ids"
+                nolabel="1"
+                readonly="1"
+                create="0"
+                delete="0"
+                options="{'no_create': True, 'no_create_edit': True}">
+                <list create="0" edit="0" delete="0">
+                  <field name="name"/>
+                  <field name="session_start"/>
+                  <field name="session_end"/>
+                  <field name="room_id"/>
+                  <field name="instructor_id"/>
+                  <field name="booked_count"/>
+                  <field name="waitlist_count"/>
+                  <field name="capacity"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

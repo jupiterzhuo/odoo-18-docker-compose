@@ -1,0 +1,119 @@
+---
+description: Core architecture, layer responsibilities, and domain rules for studio_booking Odoo 18 module
+alwaysApply: true
+---
+
+# Studio Booking: Odoo Module Engineering Rules
+
+## Module Context
+
+- **Odoo version:** 18
+- **Module name:** `studio_booking`
+- **Existing structure:** `models/`, `views/`, `controllers/`, `security/`, `data/`, `tests/`, `utils/`, `static/src/scss/`
+
+**Never invent new model names or create parallel architecture.** Use existing models: `studio.tenant`, `studio.branch`, `studio.room`, `studio.instructor`, `studio.class_template`, `studio.session_template`, `studio.class_session`, `studio.booking`, `studio.member_profile`, `studio.membership_plan`, `studio.membership_subscription`, `studio.session_booking_detail`, `res.users`, `res.config.settings`.
+
+---
+
+## Layer Responsibilities
+
+### A. `models/` — Source of Truth
+
+- Domain logic, validations, constraints
+- `create` / `write` overrides when needed; keep them small, delegate to helpers
+- State transitions, booking eligibility, waitlist promotion, recurring generation
+- Tenant enforcement via `ensure_studio_tenant_allowed`
+- Audit fields (`booked_by_user_id`, `booking_source`, `checked_in_by_user_id`)
+- **Never:** raw request parsing, HTTP logic, or presentation-only code
+
+### B. `controllers/` — Thin Transport Only
+
+- Parse request, authenticate, authorize
+- Call model methods or service-style helpers
+- Format JSON response
+- **Never:** duplicate business rules, raw business branching that belongs in models
+
+### C. `views/` — Presentation Only
+
+- Form, list, search, calendar, kanban definitions
+- State-driven visibility/readonly logic only
+- **Never:** hidden business logic that bypasses model validation
+
+### D. `security/` — Groups, Access, Record Rules
+
+- Align with tenant isolation (`user.studio_tenant_ids`)
+- Never bypass existing tenant restrictions
+
+### E. `data/` — Cron, Mail, Defaults
+
+- Idempotent behavior where relevant
+
+### F. `utils/` — Pure Helpers Only
+
+- JWT helper style utilities
+- **Never:** domain logic that belongs in models
+
+### G. `tests/` — Business Invariants
+
+- Do not break existing expectations
+- Add tests when changing booking/session/tenant behavior
+
+---
+
+## Domain Invariants (Preserve and Extend)
+
+- Member eligibility validated before booking
+- Member tenant must match session tenant
+- One active subscription per member drives eligibility
+- Subscription active and valid for session date
+- Branch restriction from membership plan respected
+- Booking status never trusted from user input: seat available → booked, full → waitlisted
+- No duplicate booking for same member and same session
+- No overlapping bookings or waitlist for same member
+- Waitlist order FIFO (`waitlist_sequence`)
+- Room capacity enforced; session capacity ≤ room capacity
+- Instructor overlap blocked; room overlap blocked
+- Recurring generation avoids duplicate sessions
+- Session cancellation cascades to bookings
+- Check-in / no-show / attendance flow consistent
+- Audit: `booking_source`, `booked_by_user_id`, `checked_in_by_user_id` preserved
+
+---
+
+## Status Compatibility (Do Not Change)
+
+**Booking:** `booked`, `waitlisted`, `promoted`, `cancelled`, `late_cancel`, `completed`  
+**Attendance:** `pending`, `attended`, `no_show`  
+**Session state:** `scheduled`, `cancelled`, `completed`
+
+---
+
+## Recurring / Session Compatibility
+
+- `studio.session_template` = recurring source
+- `studio.class_session` = generated operational session
+- Keep `session_template_id` traceability
+- Keep idempotent generation; preserve `class_template_id` alias if present
+
+---
+
+## Multi-Tenant Rules
+
+- `res.users.studio_tenant_ids` drives tenant access
+- Tenant admin: exactly one assigned tenant; cannot change tenant
+- SaaS admin / manager: all tenants
+- `ensure_studio_tenant_allowed(tenant)` before create/write on tenant-scoped records
+- Record rules enforce; controllers must also respect tenant safety
+
+---
+
+## Odoo-Specific Clean Code
+
+- Use `@api.constrains` for invariant validation
+- Use helper methods to keep `create` / `write` readable
+- Onchange: UI convenience only, never sole business enforcement
+- Raise `ValidationError`, `UserError`, `AccessError` appropriately
+- Avoid giant model files; split by responsibility when needed
+- Preserve XML IDs and manifest consistency
+- Cron jobs idempotent and safe for repeated execution
+- Avoid unnecessary searches inside loops

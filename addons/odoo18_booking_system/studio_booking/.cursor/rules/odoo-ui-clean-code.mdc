@@ -1,0 +1,86 @@
+---
+description: Premium Odoo backend UI standards for studio_booking views
+globs: "**/*.xml"
+alwaysApply: false
+---
+
+# Studio Booking: Odoo UI Rules
+
+## Visual Goals
+
+- Professional, clean, premium-looking backend UI
+- Strong grouping and visual hierarchy
+- Mobile-aware where possible; optimized for operators
+- Restrained use of decorations and badges
+
+---
+
+## Form Layout
+
+- Use `<group string="...">` for logical sections (General, Assignment, Schedule, Recurring)
+- Two-column groups where appropriate
+- Hide tenant_id for tenant users: `invisible="1"` with `groups="studio_booking.group_studio_booking_user"`
+- Show tenant_id for managers: `groups="studio_booking.group_studio_booking_manager"`
+- Use `readonly="1"` for computed/audit fields (booking_status, waitlist_sequence, booked_by_user_id)
+
+---
+
+## List Views
+
+- Readable columns; avoid clutter
+- Use `decoration-muted` for inactive/archived (e.g. `decoration-muted="not active"`)
+- Header buttons for bulk actions (e.g. Cancel Booking(s))
+- Domain on relational fields to restrict choices (e.g. session_id: `state not in ['cancelled','completed']`)
+
+---
+
+## Search Views
+
+- Practical filters and group-by options
+- Meaningful default filters where helpful
+
+---
+
+## Calendar Views
+
+- Use for `studio.class_session` (session_start, session_end)
+- Include capacity, booked_count, waitlist_count, booked_display, waitlist_display
+- Color by instructor_id or similar for visual distinction
+
+---
+
+## Notebook Pages
+
+- Use only when useful (e.g. Bookings tab, Generated Sessions tab)
+- Keep pages focused; avoid excessive nesting
+
+---
+
+## Header Buttons
+
+- Statusbar for lifecycle models: `statusbar_visible="scheduled,cancelled,completed"`
+- Action buttons: Detail (action_booking_detail), Cancel Session (action_cancel_session)
+- Use `invisible` for state-dependent visibility (e.g. Cancel invisible when state=='cancelled')
+
+---
+
+## Smart Buttons
+
+- Use when helpful for quick navigation (e.g. count of related records)
+- Avoid clutter; one or two per form when they add value
+
+---
+
+## Role-Aware Visibility
+
+- `groups="studio_booking.group_studio_booking_manager"` for tenant_id, cross-tenant actions
+- `invisible="not is_recurring"` for recurring-specific fields
+- `required="is_recurring and recurring_range == 'week'"` for conditional required
+
+---
+
+## SCSS Usage
+
+- Targeted enhancements only (e.g. branch_list column widths)
+- Use module-specific class (e.g. `o_studio_branch_list`) to avoid global pollution
+- No visual chaos; keep changes minimal and purposeful

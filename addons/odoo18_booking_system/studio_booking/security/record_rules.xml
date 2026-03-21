@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Manager: no restriction. User (tenant staff): tenant_id in user.studio_tenant_ids. -->
+  <record id="rule_studio_tenant_manager_all" model="ir.rule">
+    <field name="name">Studio Tenant: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_tenant"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_branch_manager_all" model="ir.rule">
+    <field name="name">Studio Branch: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_branch"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_room_manager_all" model="ir.rule">
+    <field name="name">Studio Room: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_room"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_member_profile_manager_all" model="ir.rule">
+    <field name="name">Studio Member Profile: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_member_profile"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_membership_plan_manager_all" model="ir.rule">
+    <field name="name">Studio Membership Plan: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_membership_plan"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_membership_subscription_manager_all" model="ir.rule">
+    <field name="name">Studio Membership Subscription: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_membership_subscription"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_instructor_manager_all" model="ir.rule">
+    <field name="name">Studio Instructor: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_instructor"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_class_template_manager_all" model="ir.rule">
+    <field name="name">Studio Class Template: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_class_template"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_session_template_manager_all" model="ir.rule">
+    <field name="name">Studio Session Template: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_session_template"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_class_session_manager_all" model="ir.rule">
+    <field name="name">Studio Class Session: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_class_session"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_booking_manager_all" model="ir.rule">
+    <field name="name">Studio Booking: Admin SaaS all tenants</field>
+    <field name="model_id" ref="studio_booking.model_studio_booking"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_push_subscription_manager_all" model="ir.rule">
+    <field name="name">Studio Push Subscription: Admin SaaS all</field>
+    <field name="model_id" ref="studio_booking.model_studio_push_subscription"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+
+  <record id="rule_studio_tenant_user" model="ir.rule">
+    <field name="name">Studio Tenant: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_tenant"/>
+    <field name="domain_force">[('id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_branch_user" model="ir.rule">
+    <field name="name">Studio Branch: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_branch"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_room_user" model="ir.rule">
+    <field name="name">Studio Room: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_room"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_member_profile_user" model="ir.rule">
+    <field name="name">Studio Member Profile: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_member_profile"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_membership_plan_user" model="ir.rule">
+    <field name="name">Studio Membership Plan: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_membership_plan"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_membership_subscription_user" model="ir.rule">
+    <field name="name">Studio Membership Subscription: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_membership_subscription"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_instructor_user" model="ir.rule">
+    <field name="name">Studio Instructor: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_instructor"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_class_template_user" model="ir.rule">
+    <field name="name">Studio Class Template: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_class_template"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_session_template_user" model="ir.rule">
+    <field name="name">Studio Session Template: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_session_template"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_class_session_user" model="ir.rule">
+    <field name="name">Studio Class Session: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_class_session"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_booking_user" model="ir.rule">
+    <field name="name">Studio Booking: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_booking"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+    <field name="perm_create" eval="False"/>
+  </record>
+  <record id="rule_studio_push_subscription_user" model="ir.rule">
+    <field name="name">Studio Push Subscription: tenant staff assigned tenants only</field>
+    <field name="model_id" ref="studio_booking.model_studio_push_subscription"/>
+    <field name="domain_force">[('member_profile_id.tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+  </record>
+
+  <!-- Member (portal) app user rules — read-only, own tenant / own profile -->
+  <record id="rule_studio_tenant_member" model="ir.rule">
+    <field name="name">Studio Tenant: member own tenant only</field>
+    <field name="model_id" ref="studio_booking.model_studio_tenant"/>
+    <field name="domain_force">[('id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_member'))]"/>
+    <field name="perm_write" eval="False"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+  <record id="rule_studio_member_profile_member" model="ir.rule">
+    <field name="name">Studio Member Profile: member own profile only</field>
+    <field name="model_id" ref="studio_booking.model_studio_member_profile"/>
+    <field name="domain_force">[('user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_member'))]"/>
+    <field name="perm_write" eval="False"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+  <record id="rule_studio_booking_member" model="ir.rule">
+    <field name="name">Studio Booking: member own bookings only</field>
+    <field name="model_id" ref="studio_booking.model_studio_booking"/>
+    <field name="domain_force">[('member_profile_id.user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_member'))]"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+  <record id="rule_studio_push_subscription_member" model="ir.rule">
+    <field name="name">Studio Push Subscription: member own only</field>
+    <field name="model_id" ref="studio_booking.model_studio_push_subscription"/>
+    <field name="domain_force">[('member_profile_id.user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_member'))]"/>
+  </record>
+</odoo>

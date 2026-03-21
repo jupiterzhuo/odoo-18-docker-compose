@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="mail_template_member_welcome_temporary_password" model="mail.template">
+    <field name="name">Member Welcome - Temporary Password</field>
+    <field name="model_id" ref="studio_booking.model_studio_member_profile"/>
+    <field name="subject">Welcome to {{ object.tenant_id.name or 'our studio' }}</field>
+    <field name="email_from">{{ object.tenant_id.email or '' }}</field>
+    <field name="email_to">{{ object.email or '' }}</field>
+    <field name="auto_delete" eval="True"/>
+    <field name="body_html"><![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0; padding:0; background-color:#f1f3f5; font-family:Arial, Helvetica, sans-serif; color:#111111;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f1f3f5; margin:0; padding:30px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:680px; margin:0 auto; background-color:#f1f3f5;">
+
+          <tr>
+            <td align="center" style="padding:10px 20px 24px 20px;">
+              <t t-if="object.tenant_id and object.tenant_id.logo">
+                <img t-att-src="(object.env.company.get_base_url() or object.env['ir.config_parameter'].sudo().get_param('web.base.url') or '').rstrip('/') + '/web/image/studio.tenant/%s/logo' % object.tenant_id.id" t-att-alt="object.tenant_id.name or 'Studio'" width="64" style="display:block; width:64px; height:auto; border:0;" />
+              </t>
+              <t t-if="not object.tenant_id or not object.tenant_id.logo">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:30px;font-weight:700;color:#111111;"><t t-out="object.tenant_id.name or 'Studio'"/></div>
+              </t>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 20px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#ffffff; border:1px solid #d9d9d9; border-radius:8px;">
+                <tr>
+                  <td style="padding:40px 36px 32px 36px;">
+
+                    <h1 style="margin:0 0 20px 0; font-size:20px; line-height:28px; font-weight:400; color:#111111;">
+                      Hi <strong><t t-out="object.name or object.email or 'Member'"/></strong>,
+                    </h1>
+
+                    <p style="margin:0 0 24px 0; font-size:16px; line-height:26px; color:#222222;">
+                      Your temporary password has been generated. Please use the credentials below to sign in to your account.
+                    </p>
+
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 24px 0;">
+                      <tr>
+                        <td style="background-color:#f8f9fa; border:1px solid #e5e7eb; border-radius:6px; padding:18px 20px;">
+                          <p style="margin:0 0 8px 0; font-size:13px; line-height:20px; color:#666666; text-transform:uppercase; letter-spacing:0.5px;">
+                            Temporary Password
+                          </p>
+                          <p style="margin:0; font-size:24px; line-height:32px; font-weight:700; color:#111111; letter-spacing:1px;">
+                            <t t-out="object.temporary_password or '-'"/>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 24px 0;">
+                      <tr>
+                        <td style="background-color:#fafafa; border:1px solid #ececec; border-radius:6px; padding:14px 16px;">
+                          <p style="margin:0 0 6px 0; font-size:14px; line-height:22px; color:#444444;"><strong>Email:</strong> <t t-out="object.email or '-'"/></p>
+                          <p style="margin:0 0 6px 0; font-size:14px; line-height:22px; color:#444444;"><strong>Tenant Code:</strong> <t t-out="object.tenant_id.code or '-'"/></p>
+                          <p style="margin:0; font-size:14px; line-height:22px; color:#444444;"><strong>Login URL:</strong> <t t-out="object.tenant_id.login_url or object.tenant_id.website_url or '-'"/></p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin:0 0 10px 0; font-size:14px; line-height:22px; color:#444444;">
+                      <strong>Important:</strong>
+                    </p>
+                    <ul style="margin:0 0 28px 20px; padding:0; color:#444444; font-size:14px; line-height:22px;">
+                      <li>This password will expire in <strong>24 hours</strong>.</li>
+                      <li>You will be asked to change it after your first login.</li>
+                      <li>Please do not share this password with anyone.</li>
+                    </ul>
+
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 28px 0;">
+                      <tr>
+                        <td align="center" bgcolor="#111111" style="border-radius:4px;">
+                          <a t-att-href="object.tenant_id.login_url or object.tenant_id.website_url or '#'" target="_blank" style="display:inline-block; padding:14px 28px; font-size:16px; line-height:20px; font-weight:700; color:#ffffff; text-decoration:none; background-color:#111111; border-radius:4px;">
+                            LOGIN NOW
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin:0 0 24px 0; font-size:14px; line-height:22px; color:#666666;">
+                      If you did not request this, please contact us immediately at
+                      <a t-att-href="'mailto:%s' % (object.tenant_id.email or '')" style="color:#666666; text-decoration:underline;"><t t-out="object.tenant_id.email or '-'"/></a>.
+                    </p>
+
+                    <p style="margin:0; font-size:16px; line-height:26px; color:#444444;">
+                      Thank you,<br />
+                      <t t-out="object.tenant_id.name or 'Studio'"/> Team
+                    </p>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:28px 20px 0 20px;">
+              <p style="margin:0 0 12px 0; font-size:12px; line-height:18px; color:#777777;">
+                © <t t-out="(object.write_date or object.create_date).strftime('%Y') if (object.write_date or object.create_date) else ''"/> <t t-out="object.tenant_id.name or 'Studio'"/> | <t t-out="object.tenant_id.phone or object.tenant_id.email or '-'"/>
+              </p>
+
+              <p style="margin:0 0 12px 0; font-size:12px; line-height:18px;">
+                <a t-att-href="object.tenant_id.website_url or '#'" style="color:#777777; text-decoration:underline;">Terms of Use</a>
+                &nbsp;&nbsp;&nbsp;
+                <a t-att-href="object.tenant_id.website_url or '#'" style="color:#777777; text-decoration:underline;">Privacy Policy</a>
+              </p>
+
+              <p style="margin:0; font-size:12px; line-height:18px; color:#999999;">
+                This email was sent automatically. Please do not reply directly to this message.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+]]></field>
+  </record>
+</odoo>

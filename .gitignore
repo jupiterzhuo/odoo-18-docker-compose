@@ -5,5 +5,5 @@ etc/addons/
 etc/sessions/
 etc/filestore/
 
-# Studio Booking addons: own Git repo — https://github.com/jupiterzhuo/odoo18-booking-system
-addons/odoo18_booking_system/
+# Backup of old nested Git metadata for addons (see REPOS.md). Do not commit.
+_odoo18_booking_system_git_backup/

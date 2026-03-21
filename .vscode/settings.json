@@ -1,5 +1,8 @@
 {
-  // This workspace’s Git remote is `origin` → jupiterzhuo/odoo-18-docker-compose (see `git remote -v`).
-  // If Cursor still shows an old GitHub repo, run: Command Palette → “Developer: Reload Window”.
+  // Compose repo: origin → https://github.com/jupiterzhuo/odoo-18-docker-compose
+  // Booking addons: nested repo under addons/odoo18_booking_system → https://github.com/jupiterzhuo/odoo18-booking-system
+  // That folder is in the parent .gitignore, so without the next line Cursor/Git often skips the second repo.
+  "git.repositoryScanIgnoredFolders": true,
+  "git.autoRepositoryDetection": "subFolders",
   "github.gitProtocol": "https"
 }

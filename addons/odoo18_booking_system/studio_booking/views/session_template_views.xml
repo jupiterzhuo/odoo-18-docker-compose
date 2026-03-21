@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_session_template_tree" model="ir.ui.view">
+    <field name="name">studio.session_template.list</field>
+    <field name="model">studio.session_template</field>
+    <field name="arch" type="xml">
+      <list string="Session Templates" decoration-muted="not active">
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="template_id"/>
+        <field name="branch_id"/>
+        <field name="room_id"/>
+        <field name="instructor_id"/>
+        <field name="start_date"/>
+        <field name="end_date"/>
+        <field name="day_of_week"/>
+        <field name="start_time"/>
+        <field name="capacity"/>
+        <field name="is_recurring"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_studio_session_template_form" model="ir.ui.view">
+    <field name="name">studio.session_template.form</field>
+    <field name="model">studio.session_template</field>
+    <field name="arch" type="xml">
+      <form string="Session Template">
+        <sheet>
+          <group string="General">
+            <group>
+              <field
+                name="tenant_id"
+                groups="studio_booking.group_studio_booking_manager"/>
+              <field
+                name="tenant_id"
+                invisible="1"
+                groups="studio_booking.group_studio_booking_user"/>
+              <field
+                name="template_id"
+                domain="[('tenant_id', '=', tenant_id)]"/>
+              <field name="active"/>
+            </group>
+          </group>
+
+          <group string="Assignment">
+            <group>
+              <field
+                name="branch_id"
+                domain="[('tenant_id', '=', tenant_id)]"/>
+              <field
+                name="instructor_id"
+                domain="[('tenant_id', '=', tenant_id)]"/>
+              <field
+                name="room_id"
+                domain="[('branch_id', '=', branch_id)]"/>
+              <field name="capacity"/>
+            </group>
+          </group>
+
+          <group string="Schedule">
+            <group>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="start_time"/>
+              <field name="end_time"/>
+              <field name="checkin_close_minutes_before"/>
+            </group>
+          </group>
+
+          <group string="Recurring">
+            <group>
+              <field name="is_recurring"/>
+              <field
+                name="recurring_number"
+                invisible="not is_recurring"/>
+              <field
+                name="recurring_range"
+                invisible="not is_recurring"/>
+              <field
+                name="day_of_week"
+                invisible="not is_recurring or recurring_range != 'week'"
+                required="is_recurring and recurring_range == 'week'"/>
+            </group>
+          </group>
+          <!-- ❌ Removed manual name maintenance from form -->
+          <notebook>
+            <page string="Generated Sessions" name="generated_sessions">
+              <field
+                name="session_ids"
+                nolabel="1"
+                readonly="1"
+                create="0"
+                delete="0"
+                options="{'no_create': True, 'no_create_edit': True}">
+                <list create="0" edit="0" delete="0">
+                  <field name="session_start"/>
+                  <field name="session_end"/>
+                  <field name="state"/>
+                  <field name="room_id"/>
+                  <field name="instructor_id"/>
+                  <field name="booked_count"/>
+                  <field name="waitlist_count"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

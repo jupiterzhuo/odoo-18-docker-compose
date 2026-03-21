@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="mail_template_waitlist_promotion" model="mail.template">
+    <field name="name">Member - Waitlist Promotion</field>
+    <field name="model_id" ref="studio_booking.model_studio_booking"/>
+    <field name="subject">You've been promoted! — {{ object.session_id.template_id.name or 'Class' }} on {{ object._get_session_display_date() or 'TBD' }}</field>
+    <field name="email_from">{{ object.tenant_id.email or '' }}</field>
+    <field name="email_to">{{ object.member_profile_id.email or '' }}</field>
+    <field name="auto_delete" eval="True"/>
+    <field name="body_html"><![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0; padding:0; background-color:#f1f3f5; font-family:Arial, Helvetica, sans-serif; color:#111111;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f1f3f5; margin:0; padding:30px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:680px; margin:0 auto; background-color:#f1f3f5;">
+
+          <tr>
+            <td align="center" style="padding:10px 20px 24px 20px;">
+              <t t-if="object.tenant_id and object.tenant_id.logo">
+                <img t-att-src="(object.env.company.get_base_url() or object.env['ir.config_parameter'].sudo().get_param('web.base.url') or '').rstrip('/') + '/web/image/studio.tenant/%s/logo' % object.tenant_id.id" t-att-alt="object.tenant_id.name or 'Studio'" width="64" style="display:block; width:64px; height:auto; border:0;" />
+              </t>
+              <t t-if="not object.tenant_id or not object.tenant_id.logo">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:30px;font-weight:700;color:#111111;"><t t-out="object.tenant_id.name or 'Studio'"/></div>
+              </t>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 20px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#ffffff; border:1px solid #d9d9d9; border-radius:8px;">
+                <tr>
+                  <td style="padding:40px 36px 32px 36px;">
+
+                    <h1 style="margin:0 0 20px 0; font-size:20px; line-height:28px; font-weight:400; color:#111111;">
+                      Hi <strong><t t-out="object.member_profile_id.name or object.member_profile_id.email or 'Member'"/></strong>,
+                    </h1>
+
+                    <p style="margin:0 0 24px 0; font-size:16px; line-height:26px; color:#222222;">
+                      Great news! A spot opened up and you've been promoted from the waitlist. You're now booked for:
+                    </p>
+
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 24px 0;">
+                      <tr>
+                        <td style="background-color:#f0fdf4; border:1px solid #86efac; border-radius:6px; padding:18px 20px;">
+                          <p style="margin:0 0 8px 0; font-size:13px; line-height:20px; color:#166534; text-transform:uppercase; letter-spacing:0.5px;">
+                            Class
+                          </p>
+                          <p style="margin:0 0 6px 0; font-size:18px; line-height:26px; font-weight:700; color:#111111;">
+                            <t t-out="object.session_id.template_id.name or 'Class'"/>
+                          </p>
+                          <p style="margin:0; font-size:14px; line-height:22px; color:#444444;">
+                            <t t-out="object._get_session_display_date() or 'TBD'"/>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <t t-set="view_booking_base" t-value="(object.tenant_id.login_url or object.tenant_id.website_url or object.env.company.get_base_url() or object.env['ir.config_parameter'].sudo().get_param('web.base.url') or '').rstrip('/')"/>
+                    <t t-set="view_booking_base" t-value="view_booking_base[:-6] if view_booking_base.endswith('/login') else view_booking_base"/>
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 28px 0;">
+                      <tr>
+                        <td align="center" bgcolor="#111111" style="border-radius:4px;">
+                          <a t-att-href="(view_booking_base + '/classes/' + str(object.session_id.id)) if object.session_id else '#'" target="_blank" style="display:inline-block; padding:14px 28px; font-size:16px; line-height:20px; font-weight:700; color:#ffffff; text-decoration:none; background-color:#111111; border-radius:4px;">
+                            VIEW MY BOOKING
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin:0 0 24px 0; font-size:14px; line-height:22px; color:#666666;">
+                      If you can no longer attend, please cancel your booking to free the spot for others.
+                    </p>
+
+                    <p style="margin:0; font-size:16px; line-height:26px; color:#444444;">
+                      Thank you,<br />
+                      <t t-out="object.tenant_id.name or 'Studio'"/> Team
+                    </p>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:28px 20px 0 20px;">
+              <p style="margin:0 0 12px 0; font-size:12px; line-height:18px; color:#777777;">
+                © <t t-out="(object.write_date or object.create_date).strftime('%Y') if (object.write_date or object.create_date) else ''"/> <t t-out="object.tenant_id.name or 'Studio'"/> | <t t-out="object.tenant_id.phone or object.tenant_id.email or '-'"/>
+              </p>
+              <p style="margin:0; font-size:12px; line-height:18px; color:#999999;">
+                This email was sent automatically. Please do not reply directly to this message.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+]]></field>
+  </record>
+</odoo>

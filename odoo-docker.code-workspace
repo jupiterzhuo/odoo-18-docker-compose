@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "① Compose (Docker / etc)",
+      "path": "."
+    },
+    {
+      "name": "② Booking modules (studio_booking …)",
+      "path": "addons/odoo18_booking_system"
+    }
+  ],
+  "settings": {
+    "git.repositoryScanIgnoredFolders": true,
+    "git.autoRepositoryDetection": "subFolders",
+    "github.gitProtocol": "https"
+  }
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_membership_plan_tree" model="ir.ui.view">
+    <field name="name">studio.membership_plan.list</field>
+    <field name="model">studio.membership_plan</field>
+    <field name="arch" type="xml">
+      <list string="Membership Plans" decoration-muted="not active">
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="name"/>
+        <field name="branch_ids" widget="many2many_tags"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_membership_plan_form" model="ir.ui.view">
+    <field name="name">studio.membership_plan.form</field>
+    <field name="model">studio.membership_plan</field>
+    <field name="arch" type="xml">
+      <form string="Membership Plan">
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_members" type="object" class="oe_stat_button" icon="fa-users">
+              <field name="member_count" string="Members" widget="statinfo"/>
+            </button>
+          </div>
+          <group>
+            <group>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_user" invisible="1"/>
+              <field name="name"/>
+              <field name="active"/>
+            </group>
+            <group>
+              <field name="branch_ids" widget="many2many_tags" domain="[('tenant_id', '=', tenant_id)]" context="{'default_tenant_id': tenant_id}"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="view_studio_membership_subscription_tree" model="ir.ui.view">
+    <field name="name">studio.membership_subscription.list</field>
+    <field name="model">studio.membership_subscription</field>
+    <field name="arch" type="xml">
+      <list string="Subscriptions">
+        <field name="member_profile_id"/>
+        <field name="plan_id"/>
+        <field name="date_start"/>
+        <field name="date_end"/>
+        <field name="state"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_membership_subscription_form" model="ir.ui.view">
+    <field name="name">studio.membership_subscription.form</field>
+    <field name="model">studio.membership_subscription</field>
+    <field name="arch" type="xml">
+      <form string="Membership Subscription">
+        <sheet>
+          <group>
+            <field name="member_profile_id" readonly="1"/>
+            <field name="tenant_id" invisible="1"/>
+            <field name="plan_id" domain="[('tenant_id', '=', tenant_id)]"/>
+            <field name="date_start"/>
+            <field name="date_end"/>
+            <field name="state" readonly="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

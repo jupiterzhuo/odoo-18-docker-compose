@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_member_profile_tree" model="ir.ui.view">
+    <field name="name">studio.member_profile.list</field>
+    <field name="model">studio.member_profile</field>
+    <field name="arch" type="xml">
+      <list string="Member Profiles" decoration-muted="not active_subscription_id">
+        <header>
+          <button name="action_send_welcome_email_multi"
+            type="object"
+            string="Send Welcome Email"
+            class="btn-secondary"
+            icon="fa-envelope"/>
+        </header>
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="first_name"/>
+        <field name="last_name"/>
+        <field name="email"/>
+        <field name="phone"/>
+        <field name="active_subscription_plan_id" string="Active Subscription"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_member_profile_form" model="ir.ui.view">
+    <field name="name">studio.member_profile.form</field>
+    <field name="model">studio.member_profile</field>
+    <field name="arch" type="xml">
+      <form string="Member Profile">
+        <sheet>
+          <group>
+            <group>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_user" invisible="1"/>
+              <field name="first_name" required="1"/>
+              <field name="last_name"/>
+              <field name="email" required="1"/>
+              <field name="phone"/>
+              <field name="active_subscription_plan_id" string="Active Subscription"/>
+            </group>
+            <group>
+              <field name="partner_id" readonly="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Subscriptions" name="subscriptions">
+              <field name="subscription_ids">
+                <list create="1" edit="1" delete="0">
+                  <field name="plan_id"/>
+                  <field name="date_start"/>
+                  <field name="date_end"/>
+                  <field name="state"/>
+                </list>
+              </field>
+            </page>
+            <page string="Account Onboarding" name="account_onboarding">
+              <group class="account_onboarding_group">
+                <group>
+                  <field name="user_id" readonly="1"/>
+                  <label for="app_password"/>
+                  <div class="d-flex align-items-center gap-2">
+                    <field name="app_password" password="True" class="flex-grow-1"/>
+                    <button name="action_generate_password"
+                      type="object"
+                      string="Generate Password"
+                      class="btn-secondary text-nowrap"
+                      icon="fa-key"/>
+                  </div>
+                </group>
+                <group>
+                  <field name="password_generated" readonly="1" class="account_onboarding_checkbox"/>
+                  <label for="welcome_email_sent"/>
+                  <div class="d-flex align-items-center gap-2">
+                    <field name="welcome_email_sent" readonly="1" class="account_onboarding_checkbox"/>
+                    <button
+                      name="action_send_welcome_email"
+                      type="object"
+                      string="Send Welcome Email"
+                      class="btn-secondary text-nowrap"
+                      icon="fa-envelope"
+                      invisible="not password_generated"/>
+                  </div>
+                  <field name="last_password_generated_at" readonly="1"/>
+                  <field name="last_welcome_email_sent_at" readonly="1"/>
+                </group>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

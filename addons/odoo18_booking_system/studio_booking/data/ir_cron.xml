@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+    <record id="ir_cron_studio_booking_no_show" model="ir.cron">
+      <field name="name">Studio Booking: Apply no-show after check-in close</field>
+      <field name="model_id" ref="studio_booking.model_studio_booking"/>
+      <field name="state">code</field>
+      <field name="code">model._cron_apply_no_show()</field>
+      <field name="interval_number">15</field>
+      <field name="interval_type">minutes</field>
+    </record>
+    <!-- 🔁 Session finalize: every 30 minutes when session_end is overdue (idempotent) -->
+    <record id="ir_cron_studio_session_completed" model="ir.cron">
+      <field name="name">Studio Session: Finalize completed sessions (overdue)</field>
+      <field name="model_id" ref="studio_booking.model_studio_class_session"/>
+      <field name="state">code</field>
+      <field name="code">model._cron_finalize_completed_sessions()</field>
+      <field name="interval_number">30</field>
+      <field name="interval_type">minutes</field>
+    </record>
+    <record id="ir_cron_studio_session_recurring_generation" model="ir.cron">
+      <field name="name">Studio Session: Generate recurring sessions</field>
+      <field name="model_id" ref="studio_booking.model_studio_session_template"/>
+      <field name="state">code</field>
+      <field name="code">model._cron_generate_upcoming_sessions(horizon_days=7)</field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+    </record>
+    <record id="ir_cron_studio_subscription_expiry" model="ir.cron">
+      <field name="name">Studio Subscription: Expire ended subscriptions</field>
+      <field name="model_id" ref="studio_booking.model_studio_membership_subscription"/>
+      <field name="state">code</field>
+      <field name="code">model._cron_expire_ended_subscriptions()</field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+    </record>
+    <record id="ir_cron_studio_subscription_activation" model="ir.cron">
+      <field name="name">Studio Subscription: Activate started subscriptions</field>
+      <field name="model_id" ref="studio_booking.model_studio_membership_subscription"/>
+      <field name="state">code</field>
+      <field name="code">model._cron_activate_started_subscriptions()</field>
+      <field name="interval_number">15</field>
+      <field name="interval_type">minutes</field>
+    </record>
+  </data>
+</odoo>

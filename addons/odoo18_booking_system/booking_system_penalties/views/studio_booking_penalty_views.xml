@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_booking_penalty_tree" model="ir.ui.view">
+    <field name="name">studio.booking_penalty.tree</field>
+    <field name="model">studio.booking_penalty</field>
+    <field name="arch" type="xml">
+      <list string="Penalties" decoration-muted="not active">
+        <field name="name"/>
+        <field name="penalty_type"/>
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="booking_id"/>
+        <field name="amount" sum="Total"/>
+        <field name="currency_id" column_invisible="1"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_studio_booking_penalty_form" model="ir.ui.view">
+    <field name="name">studio.booking_penalty.form</field>
+    <field name="model">studio.booking_penalty</field>
+    <field name="arch" type="xml">
+      <form string="Booking penalty">
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="penalty_type"/>
+              <field name="active"/>
+            </group>
+            <group>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+              <field name="tenant_id" groups="studio_booking.group_studio_booking_user" invisible="1"/>
+              <field name="booking_id"/>
+              <field name="amount"/>
+              <field name="currency_id" groups="base.group_multi_currency"/>
+            </group>
+          </group>
+          <group>
+            <field name="notes" placeholder="Internal notes…"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_studio_booking_penalty_search" model="ir.ui.view">
+    <field name="name">studio.booking_penalty.search</field>
+    <field name="model">studio.booking_penalty</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="booking_id"/>
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+        <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+        <separator/>
+        <filter name="late_cancel" string="Late cancel" domain="[('penalty_type', '=', 'late_cancel')]"/>
+        <filter name="no_show" string="No-show" domain="[('penalty_type', '=', 'no_show')]"/>
+        <group expand="0" string="Group By">
+          <filter name="group_tenant" string="Studio" context="{'group_by': 'tenant_id'}" groups="studio_booking.group_studio_booking_manager"/>
+          <filter name="group_type" string="Type" context="{'group_by': 'penalty_type'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_studio_booking_penalty" model="ir.actions.act_window">
+    <field name="name">Penalties</field>
+    <field name="res_model">studio.booking_penalty</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'search_default_active': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Create a penalty record linked to a booking and studio.
+      </p>
+      <p>
+        Use this bootstrap module as a base for late cancellation and no-show policies.
+      </p>
+    </field>
+  </record>
+</odoo>

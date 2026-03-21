@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_session_booking_detail_form" model="ir.ui.view">
+    <field name="name">studio.session_booking_detail.form</field>
+    <field name="model">studio.session_booking_detail</field>
+    <field name="arch" type="xml">
+      <form string="Booking Detail" create="0" delete="0">
+        <group>
+          <field name="session_id"/>
+        </group>
+        <group string="Who is Booking" colspan="2">
+          <field name="booked_ids" nolabel="1">
+            <list create="0" delete="0" edit="0">
+              <field name="member_profile_id"/>
+              <field name="booking_status"/>
+              <field name="attendance_status"/>
+              <field name="checkin_source"/>
+              <field name="checked_in_at"/>
+            </list>
+          </field>
+        </group>
+        <group string="Who is Waitlist" colspan="2">
+          <field name="waitlist_ids" nolabel="1">
+            <list create="0" delete="0" edit="0">
+              <field name="member_profile_id"/>
+              <field name="waitlist_sequence"/>
+              <field name="booking_status"/>
+            </list>
+          </field>
+        </group>
+        <footer>
+          <button string="Close" class="btn-primary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+</odoo>

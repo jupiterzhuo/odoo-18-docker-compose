@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <!-- Update session finalize cron to run every 30 minutes -->
+    <record id="studio_booking.ir_cron_studio_session_completed" model="ir.cron">
+      <field name="interval_number">30</field>
+      <field name="interval_type">minutes</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_instructor_tree" model="ir.ui.view">
+    <field name="name">studio.instructor.list</field>
+    <field name="model">studio.instructor</field>
+    <field name="arch" type="xml">
+      <list string="Instructors" decoration-muted="not active">
+        <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+        <field name="first_name"/>
+        <field name="last_name"/>
+        <field name="email"/>
+        <field name="phone"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+  <record id="view_studio_instructor_form" model="ir.ui.view">
+    <field name="name">studio.instructor.form</field>
+    <field name="model">studio.instructor</field>
+    <field name="arch" type="xml">
+      <form string="Instructor">
+        <sheet>
+          <group>
+            <field name="tenant_id" groups="studio_booking.group_studio_booking_manager"/>
+            <field name="tenant_id" groups="studio_booking.group_studio_booking_user" invisible="1"/>
+            <field name="first_name" required="1"/>
+            <field name="last_name"/>
+            <field name="email"/>
+            <field name="phone"/>
+            <field name="active"/>
+          </group>
+          <group>
+            <field name="partner_id" readonly="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_booking_tree" model="ir.ui.view">
+    <field name="name">studio.booking.list</field>
+    <field name="model">studio.booking</field>
+    <field name="arch" type="xml">
+      <list string="Bookings" multi_edit="0">
+        <header>
+          <button name="action_cancel" string="Cancel Booking(s)" type="object" class="btn-danger"/>
+        </header>
+        <field name="session_id" domain="[('state', 'not in', ['cancelled', 'completed'])]"/>
+        <field name="existing_booking_member_ids" column_invisible="1"/>
+        <field name="member_profile_id" domain="[('active_subscription_id', '!=', False), ('tenant_id', '=', tenant_id), ('id', 'not in', existing_booking_member_ids)]"/>
+        <field name="booking_status"/>
+        <field name="attendance_status"/>
+        <field name="waitlist_sequence"/>
+        <field name="booked_by_user_id"/>
+        <field name="booking_source"/>
+        <field name="checkin_source"/>
+        <field name="checked_in_at"/>
+        <field name="checked_in_by_user_id"/>
+      </list>
+    </field>
+  </record>
+  <!-- ✅ Form: booking_status readonly; Cancel button for Admin -->
+  <record id="view_studio_booking_form" model="ir.ui.view">
+    <field name="name">studio.booking.form</field>
+    <field name="model">studio.booking</field>
+    <field name="arch" type="xml">
+      <form string="Booking">
+        <header>
+          <button name="action_cancel"
+                  string="Cancel Booking"
+                  type="object"
+                  class="btn-danger"
+                  invisible="not id or booking_status in ('cancelled', 'late_cancel', 'completed')"/>
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="session_id" domain="[('state', 'not in', ['cancelled', 'completed'])]"/>
+              <field name="tenant_id" invisible="1"/>
+              <field name="existing_booking_member_ids" invisible="1"/>
+              <field name="member_profile_id" domain="[('active_subscription_id', '!=', False), ('tenant_id', '=', tenant_id), ('id', 'not in', existing_booking_member_ids)]"/>
+              <field name="booking_status" readonly="1"/>
+              <field name="attendance_status"/>
+              <field name="waitlist_sequence" readonly="1"/>
+            </group>
+            <group>
+              <field name="booked_by_user_id" readonly="1"/>
+              <field name="booking_source" readonly="1"/>
+              <field name="checkin_source"/>
+              <field name="checked_in_at"/>
+              <field name="checked_in_by_user_id"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

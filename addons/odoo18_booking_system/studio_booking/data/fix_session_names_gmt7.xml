@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <!-- Fix existing session names to use GMT+7 (runs on module install/update) -->
+    <function model="studio.class_session" name="_fix_all_session_names_gmt7"/>
+  </data>
+</odoo>

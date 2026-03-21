@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="module_studio_booking_category" model="ir.module.category">
+    <field name="name">Studio Booking</field>
+  </record>
+  <record id="group_studio_booking_user" model="res.groups">
+    <field name="name">Admin Tenant</field>
+    <field name="category_id" ref="module_studio_booking_category"/>
+    <field name="comment">Tenant admin: can manage branch/room/instructor/member/session only for assigned tenants.</field>
+  </record>
+  <record id="group_studio_booking_manager" model="res.groups">
+    <field name="name">Admin SaaS</field>
+    <field name="category_id" ref="module_studio_booking_category"/>
+    <field name="implied_ids" eval="[(5, 0, 0)]"/>
+    <field name="comment">Platform admin: full access across all tenants.</field>
+  </record>
+  <record id="group_studio_booking_member" model="res.groups">
+    <field name="name">Member</field>
+    <field name="category_id" ref="module_studio_booking_category"/>
+    <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+    <field name="comment">Member app user (tenant-scoped), no back-office admin access.</field>
+  </record>
+  <!-- Ensure core Administrator always has SaaS-wide access -->
+  <record id="base.user_admin" model="res.users">
+    <field name="groups_id" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+</odoo>

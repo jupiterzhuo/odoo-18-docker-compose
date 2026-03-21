@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="rule_studio_booking_penalty_manager_all" model="ir.rule">
+    <field name="name">Studio Booking Penalty: manager all tenants</field>
+    <field name="model_id" ref="booking_system_penalties.model_studio_booking_penalty"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_manager'))]"/>
+  </record>
+  <record id="rule_studio_booking_penalty_user_tenant" model="ir.rule">
+    <field name="name">Studio Booking Penalty: tenant staff own tenants</field>
+    <field name="model_id" ref="booking_system_penalties.model_studio_booking_penalty"/>
+    <field name="domain_force">[('tenant_id', 'in', user.studio_tenant_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('studio_booking.group_studio_booking_user'))]"/>
+  </record>
+</odoo>
