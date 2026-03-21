@@ -4,6 +4,3 @@ etc/odoo-server.log.*
 etc/addons/
 etc/sessions/
 etc/filestore/
-
-# Backup of old nested Git metadata for addons (see REPOS.md). Do not commit.
-_odoo18_booking_system_git_backup/
