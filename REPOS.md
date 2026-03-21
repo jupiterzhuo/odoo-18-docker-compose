@@ -22,11 +22,28 @@ mv _odoo18_booking_system_git_backup addons/odoo18_booking_system/.git
 
 ## Remotes
 
-| GitHub repo | Contents |
-|-------------|----------|
-| [jupiterzhuo/odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose) | Compose **and** all addons under `addons/odoo18_booking_system/` |
+| Name (local) | GitHub repo | Contents |
+|--------------|-------------|----------|
+| `origin` | [odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose) | Compose **and** all addons under `addons/odoo18_booking_system/` |
+| `booking` | [odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system) | **Mirror** of that addons folder only (same files as in compose) |
 
-Optional: keep [odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system) as a **mirror** (push with `git subtree split` or manual copy) if you still want a booking-only repo.
+### Push addons to `odoo18-booking-system` (after you committed on `master`)
+
+From the **compose repo root**:
+
+```bash
+git subtree split --prefix=addons/odoo18_booking_system -b split-booking-export
+git push booking split-booking-export:main --force
+git branch -D split-booking-export
+```
+
+`--force` rewrites `main` on the booking repo so it matches the current subtree (old booking-only history is replaced). Use **only** if you accept that.
+
+If `booking` remote is missing:
+
+```bash
+git remote add booking https://github.com/jupiterzhuo/odoo18-booking-system.git
+```
 
 ## Cursor
 
