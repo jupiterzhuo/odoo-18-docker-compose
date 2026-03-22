@@ -10,27 +10,35 @@ Now **`addons/odoo18_booking_system/` is part of this repo** (`jupiterzhuo/odoo-
 
 | Name (local) | GitHub repo | Contents |
 |--------------|-------------|----------|
-| `origin` | [odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose) | Compose **and** all addons under `addons/odoo18_booking_system/` |
-| `booking` | [odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system) | **Mirror** of that addons folder only (same files as in compose) |
+| **`compose`** | [odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose) | Full project: Docker stack **and** `addons/odoo18_booking_system/` |
+| **`origin`** | [odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system) | **Mirror** of the addons folder only (via subtree push) |
 
-### Push addons to `odoo18-booking-system` (after you committed on `master`)
+**Daily push/pull** (branches track `compose/*`): `git push` / `git pull` → **compose** (docker-compose repo).
 
-From the **compose repo root**:
+### Push addons to `odoo18-booking-system` (after you committed)
+
+From this repo root:
 
 ```bash
 git subtree split --prefix=addons/odoo18_booking_system -b split-booking-export
-git push booking split-booking-export:main --force
+git push origin split-booking-export:main --force
 git branch -D split-booking-export
 ```
 
 `--force` rewrites `main` on the booking repo so it matches the current subtree (old booking-only history is replaced). Use **only** if you accept that.
 
-If `booking` remote is missing:
+If **`origin`** is missing:
 
 ```bash
-git remote add booking https://github.com/jupiterzhuo/odoo18-booking-system.git
+git remote add origin https://github.com/jupiterzhuo/odoo18-booking-system.git
+```
+
+If **`compose`** is missing:
+
+```bash
+git remote add compose https://github.com/jupiterzhuo/odoo-18-docker-compose.git
 ```
 
 ## Cursor
 
-You can open the folder **or** `odoo-docker.code-workspace`. **Source Control → `master`** should list `addons/odoo18_booking_system/...` after refresh.
+You can open the folder **or** `odoo-docker.code-workspace`. **Source Control** should list `addons/odoo18_booking_system/...` after refresh.

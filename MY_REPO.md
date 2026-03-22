@@ -2,10 +2,10 @@
 
 | What | GitHub |
 |------|--------|
-| **This project (use for commits in Cursor)** | **[github.com/jupiterzhuo/odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose)** |
-| **Booking addons mirror** | **[github.com/jupiterzhuo/odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system)** |
+| **Full project (Docker + addons)** — default **`git push`** | **[github.com/jupiterzhuo/odoo-18-docker-compose](https://github.com/jupiterzhuo/odoo-18-docker-compose)** → remote name **`compose`** |
+| **Booking addons mirror** | **[github.com/jupiterzhuo/odoo18-booking-system](https://github.com/jupiterzhuo/odoo18-booking-system)** → remote name **`origin`** |
 
-- **Source Control** in Cursor uses **`origin`** → `odoo-18-docker-compose` (branch **`master`**).
-- **`booking`** is a second remote for publishing the same addons folder; see **`REPOS.md`** for subtree push commands.
+- Branches **`master`** and **`subcription-module`** track **`compose/...`** so Cursor’s Push/Pull update the **docker-compose** repo.
+- To refresh **odoo18-booking-system**, use the **subtree** commands in **`REPOS.md`** (`git push origin split-booking-export:main`).
 
-Open **`odoo-docker.code-workspace`** so the sidebar shows the repo names above.
+Open **`odoo-docker.code-workspace`** so the sidebar shows the repo layout clearly.
