@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_membership_plan_form_subscription" model="ir.ui.view">
+    <field name="name">studio.membership_plan.form.subscription</field>
+    <field name="model">studio.membership_plan</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_membership_plan_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group[.//field[@name='active']]" position="after">
+        <group string="Plan Type">
+          <group>
+            <field name="plan_type"/>
+            <field name="total_credits"
+                   invisible="plan_type != 'session_based'"
+                   required="plan_type == 'session_based'"/>
+            <field name="is_single_use"
+                   invisible="plan_type != 'time_based'"/>
+          </group>
+          <group>
+            <field name="validity_days"/>
+            <field name="max_bookings_per_day"/>
+          </group>
+        </group>
+        <group string="Pricing">
+          <group>
+            <field name="price"/>
+            <field name="currency_id"/>
+          </group>
+        </group>
+        <group string="Description">
+          <field name="description" nolabel="1"
+                 placeholder="Plan description or admin notes..."/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_studio_membership_plan_tree_subscription" model="ir.ui.view">
+    <field name="name">studio.membership_plan.tree.subscription</field>
+    <field name="model">studio.membership_plan</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_membership_plan_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="plan_type"/>
+        <field name="total_credits"/>
+        <field name="price"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

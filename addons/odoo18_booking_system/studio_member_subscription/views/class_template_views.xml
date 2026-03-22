@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_sms_class_template_form_inherit" model="ir.ui.view">
+    <field name="name">studio.class_template.form.inherit.sms</field>
+    <field name="model">studio.class_template</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_class_template_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="category_id"
+               domain="[('tenant_id', '=', tenant_id)]"
+               context="{'default_tenant_id': tenant_id}"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_sms_class_template_tree_inherit" model="ir.ui.view">
+    <field name="name">studio.class_template.list.inherit.sms</field>
+    <field name="model">studio.class_template</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_class_template_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="category_id"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

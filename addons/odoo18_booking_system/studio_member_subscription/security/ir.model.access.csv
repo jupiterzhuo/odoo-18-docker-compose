@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sms_class_category_user,studio.class_category.user,studio_member_subscription.model_studio_class_category,studio_booking.group_studio_booking_user,1,1,1,0
+access_sms_class_category_manager,studio.class_category.manager,studio_member_subscription.model_studio_class_category,studio_booking.group_studio_booking_manager,1,1,1,1

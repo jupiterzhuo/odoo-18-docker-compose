@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_studio_membership_subscription_form_subscription" model="ir.ui.view">
+    <field name="name">studio.membership_subscription.form.subscription</field>
+    <field name="model">studio.membership_subscription</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_membership_subscription_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='plan_id']" position="after">
+        <field name="plan_type" readonly="1"/>
+      </xpath>
+      <xpath expr="//field[@name='state']" position="after">
+        <separator string="Session Credits"
+                   invisible="plan_type != 'session_based'"/>
+        <field name="total_credits" readonly="state != 'draft'"
+               invisible="plan_type != 'session_based'"/>
+        <field name="used_credits" readonly="1"
+               invisible="plan_type != 'session_based'"/>
+        <field name="pending_credits" readonly="1"
+               invisible="plan_type != 'session_based'"/>
+        <field name="available_credits" readonly="1"
+               invisible="plan_type != 'session_based'"
+               decoration-danger="available_credits == 0"
+               decoration-warning="available_credits &gt; 0 and available_credits &lt;= 5"/>
+        <field name="is_single_use_consumed" readonly="1"
+               invisible="is_single_use == False"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_studio_membership_subscription_tree_subscription" model="ir.ui.view">
+    <field name="name">studio.membership_subscription.tree.subscription</field>
+    <field name="model">studio.membership_subscription</field>
+    <field name="inherit_id" ref="studio_booking.view_studio_membership_subscription_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='plan_id']" position="after">
+        <field name="plan_type"/>
+      </xpath>
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="available_credits"
+               optional="show"
+               decoration-danger="available_credits == 0"
+               decoration-warning="available_credits &gt; 0 and available_credits &lt;= 5"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>
